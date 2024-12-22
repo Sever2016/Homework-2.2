@@ -32,18 +32,29 @@ public class ProductBasket {
         return totalPrice;
     }
 
+    public int countSpecialProducts() {
+        int specialProducts = 0;
+        for (Product product : productBasket) {
+            if (product != null && product.isSpecial()) {
+                specialProducts++;
+            }
+        }
+        return specialProducts;
+    }
+
     public void printProductBucket() {
         boolean isEmpty = true;
         for (Product product : productBasket) {
             if (product != null) {
                 isEmpty = false;
-                System.out.println(product.getProductName() + ": " + product.getPrice());
+                System.out.println(product);
             }
         }
         if (isEmpty) {
             System.out.println("В корзине пусто");
         } else {
             System.out.println("Итого: " + countProductBasketPrice());
+            System.out.println("Специальных товаров: " + countSpecialProducts());
         }
     }
 
