@@ -1,10 +1,14 @@
 package org.skypro.skyshop;
 
+import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.SearchEngine;
+
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -53,5 +57,32 @@ public class Main {
         } else {
             System.out.println(product + " нет в корзине");
         }
+
+        Article onionArticle = new Article("Onion", "Почему лук заставляет плакать?");
+        Article cookiesArticle = new Article("Cookies", "Вкусно и полезно, но как?");
+        Article amberArticle = new Article("Amber", "Сочно, дерзко, аппетитно");
+
+        SearchEngine testSearch = new SearchEngine(10);
+        testSearch.add(apple);
+        testSearch.add(grape);
+        testSearch.add(onion);
+        testSearch.add(berries);
+        testSearch.add(buckwheat);
+        testSearch.add(butter);
+        testSearch.add(onionArticle);
+        testSearch.add(cookiesArticle);
+        testSearch.add(amberArticle);
+
+        System.out.println();
+        System.out.println(Arrays.toString(testSearch.search("Onion")));
+
+        System.out.println();
+        System.out.println(Arrays.toString(testSearch.search("дерзко")));
+
+        System.out.println();
+        System.out.println(Arrays.toString(testSearch.search("Berries")));
+
+        System.out.println();
+        System.out.println(Arrays.toString(testSearch.search("Чудофрукт")));
     }
 }
