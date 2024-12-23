@@ -2,6 +2,8 @@ package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.interfaces.Searchable;
 
+import java.util.Arrays;
+
 public class SearchEngine {
 
     private Searchable[] searchable;
@@ -12,23 +14,20 @@ public class SearchEngine {
         count = 0;
     }
 
-    public String[] search(String search) {
-        Searchable[] intermediateSearchResult = new Searchable[5];
+    public Searchable[] search(String search) {
         int counter = 0;
+        Searchable[] searchResult = new Searchable[5];
+
         for (int i = 0; i < count; i++) {
             if (counter == 5) {
                 break;
             }
             if (searchable[i] != null && searchable[i].searchTerm().contains(search)) {
-                intermediateSearchResult[counter] = searchable[i];
+                searchResult[counter] = searchable[i];
                 counter++;
             }
         }
-        String[] searchResult = new String[counter];
-        for (int i = 0; i < counter; i++) {
-            searchResult[i] = intermediateSearchResult[i].getStringRepresentation();
-        }
-        return searchResult;
+        return Arrays.copyOfRange(searchResult,0,counter);
     }
 
     public void add(Searchable newSearchable) {
