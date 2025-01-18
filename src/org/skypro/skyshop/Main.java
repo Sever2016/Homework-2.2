@@ -2,6 +2,7 @@ package org.skypro.skyshop;
 
 import org.skypro.skyshop.article.Article;
 import org.skypro.skyshop.basket.ProductBasket;
+import org.skypro.skyshop.exceptions.BestResultNotFound;
 import org.skypro.skyshop.product.DiscountProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
+        //Блок старого дз
         Product apple = new SimpleProduct("Apple", 45);
         Product grape = new DiscountProduct("Grape", 325, 15);
         ProductBasket firstBucket = new ProductBasket();
@@ -84,5 +86,34 @@ public class Main {
 
         System.out.println();
         System.out.println(Arrays.toString(testSearch.search("Чудофрукт")));
+
+        System.out.println();
+        //Новая часть
+        try {
+            SimpleProduct Sausage = new SimpleProduct("Sausage", 0);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception);
+        }
+        try {
+            DiscountProduct Eggs = new DiscountProduct("Eggs", 90, 101);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception);
+        }
+        try {
+            SimpleProduct Cake = new SimpleProduct("", 150);
+        } catch (IllegalArgumentException exception) {
+            System.out.println(exception);
+        }
+
+        System.out.println();
+
+        try {
+            System.out.println(testSearch.getSearchTerm("но"));
+            System.out.println();
+            System.out.println(testSearch.getSearchTerm("Что такое ананас?"));
+        } catch (BestResultNotFound exception) {
+            System.out.println(exception);
+        }
+
     }
 }
