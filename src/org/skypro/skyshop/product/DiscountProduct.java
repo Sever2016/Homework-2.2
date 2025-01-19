@@ -2,16 +2,17 @@ package org.skypro.skyshop.product;
 
 public class DiscountProduct extends Product {
     private int usualPrice, discount;
+
     public DiscountProduct(String productName, int usualPrice, int discount) {
         super(productName);
-        this.usualPrice = usualPrice;
         if (usualPrice < 1) {
             throw new IllegalArgumentException("Продкут должен что-нибудь стоить");
         }
-        this.discount = discount;
-        if (this.discount < 0 || this.discount > 100) {
+        if (discount < 0 || discount > 100) {
             throw new IllegalArgumentException("Неверное значение скидки товара");
         }
+        this.usualPrice = usualPrice;
+        this.discount = discount;
     }
 
     @Override
