@@ -9,8 +9,6 @@ import org.skypro.skyshop.product.Product;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.SearchEngine;
 
-import java.util.Arrays;
-
 public class Main {
     public static void main(String[] args) {
         //Блок старого дз
@@ -20,20 +18,19 @@ public class Main {
         firstBucket.addProduct(apple);
         firstBucket.addProduct(grape);
 
-        firstBucket.printProductBucket();
-        System.out.println(firstBucket.countProductBasketPrice());
 
         Product buckwheat = new SimpleProduct("Buckwheat", 325);
         Product onion = new FixPriceProduct("Onion");
         Product butter = new SimpleProduct("Butter", 68);
         Product berries = new SimpleProduct("Berries", 517);
 
-        System.out.println();
         firstBucket.addProduct(buckwheat);
         firstBucket.addProduct(onion);
         firstBucket.addProduct(butter);
         firstBucket.addProduct(berries);
+        firstBucket.addProduct(onion);
         firstBucket.printProductBucket();
+        System.out.println(firstBucket.countProductBasketPrice());
         System.out.println();
 
         String product = "Onion";
@@ -50,9 +47,6 @@ public class Main {
         }
         System.out.println();
 
-        firstBucket.cleanProductBasket();
-        firstBucket.printProductBucket();
-        firstBucket.countProductBasketPrice();
         product = "Onion";
         if (firstBucket.isProductInBasket(product)) {
             System.out.println(product + " есть в корзине");
@@ -64,10 +58,10 @@ public class Main {
         Article cookiesArticle = new Article("Cookies", "Вкусно и полезно, но как?");
         Article amberArticle = new Article("Amber", "Сочно, дерзко, аппетитно");
 
-        SearchEngine testSearch = new SearchEngine(10);
+        SearchEngine testSearch = new SearchEngine();
         testSearch.add(apple);
         testSearch.add(grape);
-        testSearch.add(onion);
+        testSearch.add(null);
         testSearch.add(berries);
         testSearch.add(buckwheat);
         testSearch.add(butter);
@@ -76,19 +70,19 @@ public class Main {
         testSearch.add(amberArticle);
 
         System.out.println();
-        System.out.println(Arrays.toString(testSearch.search("Onion")));
+        System.out.println(testSearch.search("Onion"));
 
         System.out.println();
-        System.out.println(Arrays.toString(testSearch.search("дерзко")));
+        System.out.println(testSearch.search("дерзко"));
 
         System.out.println();
-        System.out.println(Arrays.toString(testSearch.search("Berries")));
+        System.out.println(testSearch.search("Berries"));
 
         System.out.println();
-        System.out.println(Arrays.toString(testSearch.search("Чудофрукт")));
+        System.out.println(testSearch.search("Чудофрукт"));
 
         System.out.println();
-        //Новая часть
+
         try {
             SimpleProduct Sausage = new SimpleProduct("Sausage", 0);
         } catch (IllegalArgumentException exception) {
@@ -114,6 +108,19 @@ public class Main {
         } catch (BestResultNotFound exception) {
             System.out.println(exception);
         }
+        //Новая часть
+        System.out.println();
+        System.out.println("Просмотр работы по Java Collections");
+        System.out.println();
+        System.out.println("Были удалены " + firstBucket.deleteProduct("Onion"));
+        System.out.println();
+        firstBucket.printProductBucket();
+        System.out.println();
+        if (firstBucket.deleteProduct("Table").isEmpty()) {
+            System.out.println("Список пуст");
+        }
+        System.out.println();
+        firstBucket.printProductBucket();
 
     }
 }
