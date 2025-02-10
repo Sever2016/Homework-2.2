@@ -7,50 +7,48 @@ import java.util.*;
 
 public class SearchEngine {
 
-    private LinkedList<Searchable> searchable;
-    private int count;
+    private Map<String, Searchable> searchable;
 
     public SearchEngine() {
-        searchable = new LinkedList<>();
-        count = 0;
+        searchable = new HashMap<>();
     }
 
-    public List<Searchable> search(String search) {
-        List<Searchable> searchResult = new LinkedList<>();
-        for (Searchable searchable1 : searchable) {
+    public TreeMap<String, Searchable> search(String search) {
+        TreeMap<String, Searchable> searchResult = new TreeMap<>();
+        for (Searchable searchable1 : searchable.values()) {
             if (searchable1 != null && searchable1.searchTerm().contains(search)) {
-                searchResult.add(searchable1);
+                searchResult.put(searchable1.searchTerm(), searchable1);
             }
         }
         return searchResult;
     }
 
     public void add(Searchable newSearchable) {
-        searchable.add(newSearchable);
-        count++;
+        if (newSearchable != null) {
+            searchable.put(newSearchable.searchTerm(), newSearchable);
+        }
     }
 
     public Searchable getSearchTerm(String search) throws BestResultNotFound {
-        int maxIndex = 0;
+        Searchable maxSearchable = null;
         int searchResult = 0;
-        for (int i = 0; i < count; i++) {
-            if (searchable.get(i) != null && searchable.get(i).searchTerm().contains(search)) {
+        for (Searchable searchable1 : searchable.values()) {
+            if (searchable1 != null && searchable1.searchTerm().contains(search)) {
                 int counter = 0;
-                int searchIndex = searchable.get(i).searchTerm().indexOf(search);
+                int searchIndex = searchable1.searchTerm().indexOf(search);
                 while (searchIndex != -1) {
-                    searchIndex = searchable.get(i).searchTerm().indexOf(search, searchIndex + search.length());
+                    searchIndex = searchable1.searchTerm().indexOf(search, searchIndex + search.length());
                     counter++;
-
                 }
                 if (counter > searchResult) {
                     searchResult = counter;
-                    maxIndex = i;
+                    maxSearchable = searchable1;
                 }
             }
         }
         if (searchResult == 0) {
             throw new BestResultNotFound("По запросу: " + search + ", ничего не найдено");
         }
-        return searchable.get(maxIndex);
+        return maxSearchable;
     }
 }

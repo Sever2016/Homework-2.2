@@ -2,22 +2,20 @@ package org.skypro.skyshop.basket;
 
 import org.skypro.skyshop.product.Product;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class ProductBasket {
-    List<Product> productBasket = new LinkedList<>();
+    private Map<String, ArrayList<Product>> productBasket = new HashMap<>();
 
     public void addProduct(Product newProduct) {
-        productBasket.add(newProduct);
+        productBasket.computeIfAbsent(newProduct.getProductName(), k -> new ArrayList<>()).add(newProduct);
     }
 
     public int countProductBasketPrice() {
         int totalPrice = 0;
-        for (Product product : productBasket) {
+        for (ArrayList<Product> product : productBasket.values()) {
             if (product != null) {
-                totalPrice += product.getPrice();
+                totalPrice += product.get(0).getPrice() * product.size();
             }
         }
         return totalPrice;
@@ -25,9 +23,9 @@ public class ProductBasket {
 
     public int countSpecialProducts() {
         int specialProducts = 0;
-        for (Product product : productBasket) {
-            if (product != null && product.isSpecial()) {
-                specialProducts++;
+        for (ArrayList<Product> product : productBasket.values()) {
+            if (product != null && product.get(0).isSpecial()) {
+                specialProducts += product.size();
             }
         }
         return specialProducts;
@@ -35,7 +33,7 @@ public class ProductBasket {
 
     public void printProductBucket() {
         boolean isEmpty = true;
-        for (Product product : productBasket) {
+        for (Map.Entry<String, ArrayList<Product>> product : productBasket.entrySet()) {
             if (product != null) {
                 isEmpty = false;
                 System.out.println(product);
@@ -51,8 +49,8 @@ public class ProductBasket {
 
     public boolean isProductInBasket(String productName) {
         boolean isProductInBasket = false;
-        for (Product product : productBasket) {
-            if (product != null && productName.equals(product.getProductName())) {
+        for (String product : productBasket.keySet()) {
+            if (productName.equals(product)) {
                 isProductInBasket = true;
                 break;
             }
@@ -64,16 +62,10 @@ public class ProductBasket {
         productBasket.clear();
     }
 
-    public List<Product> deleteProduct(String name) {
-        List<Product> deletedProducts = new LinkedList<>();
-        Iterator<Product> iterator = productBasket.iterator();
-        while (iterator.hasNext()) {
-            Product product = iterator.next();
-            if (name.equals(product.getProductName())) {
-                deletedProducts.add(product);
-                iterator.remove();
-            }
-        }
+    public Map<String, ArrayList<Product>> deleteProduct(String name) {
+        Map<String, ArrayList<Product>> deletedProducts = new HashMap<>();
+        deletedProducts.put(name, productBasket.get(name));
+        productBasket.remove(name);
         return deletedProducts;
     }
 }
