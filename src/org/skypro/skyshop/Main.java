@@ -19,7 +19,7 @@ public class Main {
         firstBucket.addProduct(grape);
 
 
-        Product buckwheat = new SimpleProduct("Buckwheat", 325);
+        Product buckwheat = new SimpleProduct("AAпельсино", 325);
         Product onion = new FixPriceProduct("Onion");
         Product butter = new SimpleProduct("Butter", 68);
         Product berries = new SimpleProduct("Berries", 517);
@@ -108,7 +108,7 @@ public class Main {
         } catch (BestResultNotFound exception) {
             System.out.println(exception);
         }
-        //Новая часть
+
         System.out.println();
         System.out.println("Просмотр работы по Java Collections");
         System.out.println();
@@ -121,6 +121,6 @@ public class Main {
         }
         System.out.println();
         firstBucket.printProductBucket();
-
+        System.out.println(testSearch.search("но"));
     }
 }
