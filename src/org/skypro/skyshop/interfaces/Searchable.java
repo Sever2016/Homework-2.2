@@ -8,5 +8,4 @@ public interface Searchable {
     String getTypeOfContent();
 
     String searchTerm();
-
 }
