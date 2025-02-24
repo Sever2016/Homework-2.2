@@ -7,17 +7,18 @@ import java.util.*;
 
 public class SearchEngine {
 
-    private Map<String, Searchable> searchable;
+    private Set<Searchable> searchable;
 
     public SearchEngine() {
-        searchable = new HashMap<>();
+        searchable = new HashSet<>();
     }
 
-    public TreeMap<String, Searchable> search(String search) {
-        TreeMap<String, Searchable> searchResult = new TreeMap<>();
-        for (Searchable searchable1 : searchable.values()) {
+    public TreeSet<Searchable> search(String search) {
+
+        TreeSet<Searchable> searchResult = new TreeSet<>(new SearchableComparator());
+        for (Searchable searchable1 : searchable) {
             if (searchable1 != null && searchable1.searchTerm().contains(search)) {
-                searchResult.put(searchable1.searchTerm(), searchable1);
+                searchResult.add(searchable1);
             }
         }
         return searchResult;
@@ -25,14 +26,14 @@ public class SearchEngine {
 
     public void add(Searchable newSearchable) {
         if (newSearchable != null) {
-            searchable.put(newSearchable.searchTerm(), newSearchable);
+            searchable.add(newSearchable);
         }
     }
 
     public Searchable getSearchTerm(String search) throws BestResultNotFound {
         Searchable maxSearchable = null;
         int searchResult = 0;
-        for (Searchable searchable1 : searchable.values()) {
+        for (Searchable searchable1 : searchable) {
             if (searchable1 != null && searchable1.searchTerm().contains(search)) {
                 int counter = 0;
                 int searchIndex = searchable1.searchTerm().indexOf(search);
@@ -50,5 +51,15 @@ public class SearchEngine {
             throw new BestResultNotFound("По запросу: " + search + ", ничего не найдено");
         }
         return maxSearchable;
+    }
+
+    public static class SearchableComparator implements Comparator<Searchable> {
+        @Override
+        public int compare(Searchable s1, Searchable s2) {
+            if (s2.getStringRepresentation().length() - s1.getStringRepresentation().length() != 0) {
+                return s2.getStringRepresentation().length() - s1.getStringRepresentation().length();
+            }
+            return s1.getStringRepresentation().compareTo(s2.getStringRepresentation());
+        }
     }
 }

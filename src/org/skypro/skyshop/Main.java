@@ -110,8 +110,6 @@ public class Main {
         }
 
         System.out.println();
-        System.out.println("Просмотр работы по Java Collections");
-        System.out.println();
         System.out.println("Были удалены " + firstBucket.deleteProduct("Onion"));
         System.out.println();
         firstBucket.printProductBucket();
@@ -121,6 +119,10 @@ public class Main {
         }
         System.out.println();
         firstBucket.printProductBucket();
+
+        Article cookiesArticle2 = new Article("Печенье", "Вкусно и полезно, но как?");
+        testSearch.add(cookiesArticle2);
         System.out.println(testSearch.search("но"));
+
     }
 }
