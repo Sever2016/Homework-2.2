@@ -12,50 +12,34 @@ public class ProductBasket {
     }
 
     public int countProductBasketPrice() {
-        int totalPrice = 0;
-        for (ArrayList<Product> product : productBasket.values()) {
-            if (product != null) {
-                totalPrice += product.get(0).getPrice() * product.size();
-            }
-        }
-        return totalPrice;
+        return productBasket.values().stream().flatMap(Collection::stream)
+                .filter(Objects::nonNull)
+                .mapToInt(Product::getPrice)
+                .sum();
     }
 
-    public int countSpecialProducts() {
-        int specialProducts = 0;
-        for (ArrayList<Product> product : productBasket.values()) {
-            if (product != null && product.get(0).isSpecial()) {
-                specialProducts += product.size();
-            }
-        }
-        return specialProducts;
+    public long countSpecialProducts() {
+        return productBasket.values().stream().flatMap(Collection::stream)
+                .filter(Objects::nonNull)
+                .filter(Product::isSpecial)
+                .count();
+
     }
 
     public void printProductBucket() {
-        boolean isEmpty = true;
-        for (Map.Entry<String, ArrayList<Product>> product : productBasket.entrySet()) {
-            if (product != null) {
-                isEmpty = false;
-                System.out.println(product);
-            }
-        }
-        if (isEmpty) {
+        productBasket.entrySet().stream()
+                .filter(Objects::nonNull)
+                .forEach(System.out::println);
+        if (productBasket.isEmpty()) {
             System.out.println("В корзине пусто");
         } else {
-            System.out.println("Итого: " + countProductBasketPrice());
             System.out.println("Специальных товаров: " + countSpecialProducts());
         }
     }
 
     public boolean isProductInBasket(String productName) {
-        boolean isProductInBasket = false;
-        for (String product : productBasket.keySet()) {
-            if (productName.equals(product)) {
-                isProductInBasket = true;
-                break;
-            }
-        }
-        return isProductInBasket;
+        return productBasket.keySet().stream()
+                .anyMatch(i -> i.equals(productName));
     }
 
     public void cleanProductBasket() {
