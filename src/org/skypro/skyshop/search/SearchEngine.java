@@ -14,14 +14,10 @@ public class SearchEngine {
     }
 
     public TreeSet<Searchable> search(String search) {
-
-        TreeSet<Searchable> searchResult = new TreeSet<>(new SearchableComparator());
-        for (Searchable searchable1 : searchable) {
-            if (searchable1 != null && searchable1.searchTerm().contains(search)) {
-                searchResult.add(searchable1);
-            }
-        }
-        return searchResult;
+        return searchable.stream()
+                .filter(Objects::nonNull)
+                .filter(i -> i.searchTerm().contains(search))
+                .collect(() -> new TreeSet<Searchable>(new SearchableComparator()), TreeSet<Searchable>::add, TreeSet<Searchable>::addAll);
     }
 
     public void add(Searchable newSearchable) {
