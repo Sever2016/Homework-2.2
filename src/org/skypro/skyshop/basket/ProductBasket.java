@@ -10,7 +10,6 @@ public class ProductBasket {
     public void addProduct(Product newProduct) {
         productBasket.computeIfAbsent(newProduct.getProductName(), k -> new ArrayList<>()).add(newProduct);
     }
-    djkbbjc
 
     public int countProductBasketPrice() {
         int totalPrice = 0;
